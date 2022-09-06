@@ -13,9 +13,8 @@ function App() {
       .then(result => result.json())
       .then(data => {
         setLinks(data);
+        console.log({links})
       })
-    
-    // setLinks(response);
     
   }
 
