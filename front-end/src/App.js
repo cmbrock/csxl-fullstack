@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// TODO: import components
+import Link from './components/link/Link';
+import UserAvatar from './components/UserAvatar';
 
-const NAME = "";
+const NAME = "Colin";
 
 // Base page formatting... feel free to edit!
 const StyledApp = styled.div`
-  background: linear-gradient(135deg, #e66465, #9198e5);
+  background: linear-gradient(135deg, #68C32B, #7B2BC2);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,14 +18,36 @@ const StyledApp = styled.div`
   font-family: 'Poppins', sans-serif;
   gap: 16px;
 `
+const StyledH2 = styled.h2`
+  margin 0px;
+`
 
 function App() {
   // TODO: fetch links from API and store them to display on our page!
+  const [links, setLinks] = useState([]);
 
-  // TODO: finish returning
+  function fetchLinks() {
+    fetch("http://localhost:8000/api/links")
+    .then(data => data.json())
+    .then(result => {
+      setLinks(result);
+    })
+  }
+
+  useEffect(
+    () => {
+      fetchLinks();
+    },
+    []
+  );
+
   return (
     <StyledApp>
-      <p>Hello, dev! We are going to create a webpage here later.</p>
+      <StyledH2>{NAME}'s XLinks</StyledH2>
+      <UserAvatar alt="Profile picture" src="https://c.tenor.com/evZ0NI7XMwMAAAAM/corgi-swimming.gif" />
+      {links.map(link => (
+        <Link url={link.url} title={link.display_name} />
+      ))}
     </StyledApp>
   );
 }
